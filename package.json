@@ -1,0 +1,49 @@
+{
+  "name": "520-project-pouliezos-wang-minthein",
+  "version": "1.0.0",
+  "bundlesize": [
+    {
+      "path": "client/dist/assets/*.js",
+      "maxSize": "600 kb"
+    },
+    {
+      "path": "client/dist/assets/*.css",
+      "maxSize": "10 kB"
+    }
+  ],
+  "description": "Data visualizaer for countries vs the type of games they play",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd server && node bin/www",
+    "build": "cd client && npm install && npm run build && cd ../server && npm install",
+    "bundlesize": "bundlesize",
+    "test": "cant do that here"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "520-project-pouliezos-wang-minthein": "file:",
+    "chart.js": "^4.4.6",
+    "chartjs-plugin-zoom": "^2.1.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "leaflet": "^1.9.4",
+    "mongodb": "^6.10.0",
+    "plotly.js": "^2.35.2",
+    "plotly.js-dist-min": "^2.35.2",
+    "react-chartjs-2": "^5.2.0",
+    "react-leaflet": "^4.2.1",
+    "react-plotly.js": "^2.6.0"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "bundlesize2": "^0.0.31",
+    "chai": "^5.1.2",
+    "chai-as-promised": "^8.0.0",
+    "mocha": "^10.7.3",
+    "sinon": "^19.0.2",
+    "supertest": "^7.0.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

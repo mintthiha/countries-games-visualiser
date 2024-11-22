@@ -1,0 +1,125 @@
+/* Sidebar container */
+.ui-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #F0FFFF;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  max-height: 100vh; /* Limit height to viewport height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Top Section */
+#top-section {
+  text-align: center;
+}
+
+#top-section h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+/* Image styles for top section */
+#top-section img {
+  max-width: 100px;
+  border-radius: 50%;
+}
+
+/* Table styling for buttons and options */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: gray solid 2px;
+  margin-bottom: 5px;
+}
+
+table h3 {
+  font-size: 18px;
+  color: black;
+  margin: 10px 0;
+}
+
+td {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Button styling */
+button {
+  width: 100px;
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #1F51FF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #191970;
+}
+
+.show-sidebar-button {
+  position: fixed;
+  bottom: 10px; 
+  left: 10px; 
+  background-color: #1F51FF;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 1000; 
+  transition: background-color 0.3s ease;
+}
+
+.show-sidebar-button:hover {
+  background-color: #191970;
+}
+
+/* Make sure all child elements of ui-controls have a max width of 200px */
+.ui-controls > * {
+  max-width: 200px;
+}
+
+/* For mobile or small screens */
+@media (max-width: 900px), (max-height: 500px) {
+  .ui-controls {
+    flex-direction: row;
+    flex-wrap: wrap; /* Wrap elements into rows */
+    justify-content: center;
+    align-content: flex-start;
+    gap: 10px;
+    padding: 10px;
+    max-height: 50vh;
+  }
+
+  .ui-controls table,
+  .ui-controls label,
+  #top-section {
+    width: 100px; /* Reduce the width to fit in a grid layout */
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  .ui-controls h1 {
+    font-size: 20px; /* Smaller title */
+  }
+
+  /* Adjust dropdown and button sizing */
+  .ui-controls select, .ui-controls button {
+    font-size: 14px;
+    padding: 8px;
+    width: 100%;
+  }
+}

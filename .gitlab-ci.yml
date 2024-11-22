@@ -1,0 +1,71 @@
+image: node:22.8-bullseye-slim
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH 
+    - if: $CI_COMMIT_BRANCH == "staging"
+    - if: $CI_MERGE_REQUEST_ID #For MR's
+
+stages:
+  - build
+  - test
+  - lint
+
+client_build:
+  stage: build
+  script:
+    - cd client
+    - npm ci --cache .npm --prefer-offline
+    - npm run build
+  cache:  
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - client/.npm/
+  artifacts:
+    expire_in: 1 days
+    when: on_success
+    paths:
+      - client/dist/
+
+bundlesize-client:
+  stage: build
+  before_script:
+    - npm install
+    - npm run build
+  script:
+    - npx bundlesize2
+
+server_test:
+  stage: test
+  before_script:
+    - npm install
+  script:
+    - cd server
+    - npm ci --cache .npm --prefer-offline
+    - npm run test
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - server/.npm/
+
+client_lint:
+  stage: lint
+  script:
+    - cd client
+    - npm ci --cache .npm --prefer-offline
+    - npm run lint
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - client/.npm/
+
+server_lint:
+  stage: lint
+  script:
+    - cd server
+    - npm ci --cache .npm --prefer-offline
+    - npm run lint
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - server/.npm/
