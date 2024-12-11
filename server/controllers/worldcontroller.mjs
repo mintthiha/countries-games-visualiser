@@ -18,6 +18,7 @@ import { AllCountries } from './readData.mjs';
 export const getAllCountries = async (req, res) => {
   try {
     const countries = await AllCountries();
+    res.set('Cache-Control', 'public, max-age=31536000, immutable');
     res.json(countries);
   } catch (error) {
     console.error('Failed to retrieve countries:', error);
@@ -49,6 +50,7 @@ export const getCountryDetails = async (req, res) => {
     );
 
     if (country) {
+      res.set('Cache-Control', 'public, max-age=31536000, immutable');
       res.json(country);
     } else {
       res.status(404).json({ error: 'The country is not found. Try again!' });
@@ -84,12 +86,14 @@ export const getCountryFilter = async (req, res) => {
         Country: country.Country,
         [filter]: country[filter]
       }));
+      res.set('Cache-Control', 'public, max-age=31536000, immutable');
       res.json(filteredData);
     }else {
       res.status(404).json({ error: 'The filter is not found. Try again!' });
     }
   } catch (error) {
     console.error('Failed to retrieve country details:', error);
+    
     res.status(500).json({ error: 'Failed to retrieve country details.' });
   }
 };

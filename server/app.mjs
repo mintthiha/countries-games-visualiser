@@ -4,6 +4,7 @@ import worldGamesRouter from './routes/worldgamesrouter.mjs';
 import worldGeoJsonRouter from './routes/worldgeojsonrouter.mjs';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
+import compression from 'compression';
 
 /**
  * Express application setup for serving static files and handling API routes.
@@ -15,6 +16,9 @@ import swaggerJSDoc from 'swagger-jsdoc';
  * @const {Express} app - The initialized Express application.
  */
 const app = express();
+
+// Enable compression for all responses
+app.use(compression());
 
 // Middleware for serving static files
 app.use(express.static('../client/dist'));
@@ -38,9 +42,6 @@ const options = {
 
 const swaggerSpec = swaggerJSDoc(options);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-
-
 
 app.use((req, res) => {
   res.status(404).send('Sorry, can\'t find that!');

@@ -14,26 +14,74 @@ import './Panel.css';
  */
 
 export default function Panel(
-  {setView, countryFilterButtonHandler, gameFilterChartButtonHandler, gameFilterTypeButtonHandler}){
+  {countryFilter, gameFilter, setView, countryFilterButtonHandler,
+    gameFilterChartButtonHandler, gameFilterTypeButtonHandler}){
   const [isVisible, setIsVisible] = useState(true);
 
   const toggleSidebar = () => {
     setIsVisible(!isVisible);
   };
 
+  const countryOptions = [
+    {value:'Agricultural Land( %25)', text:'Agricultural Land (%)'},
+    {value:'Land Area(Km2)', text:'Land Area (Km2)'},
+    {value:'Armed Forces size', text:'Armed Forces size'},
+    {value:'Birth Rate', text:'Birth Rate'},
+    {value:'Co2-Emissions', text:'Co2 Emissions'},
+    {value:'CPI', text:'CPI'},
+    {value:'CPI Change (%25)', text:'CPI Change (%)'},
+    {value:'Fertility Rate', text:'Fertility Rate'},
+    {value:'Forested Area (%25)', text:'Forested Area (%)'},
+    {value:'Gasoline Price', text:'Gasoline Price'},
+    {value:'GDP', text:'GDP'},
+    {value:'Gross primary education enrollment (%25)', 
+      text:'Gross primary education enrollment (%)'},
+    {value:'Gross tertiary education enrollment (%25)',
+      text:'Gross tertiary education enrollment (%)'},
+    {value:'Infant mortality', text:'Infant Mortality'},
+    {value:'Life expectancy', text:'Life Expectancy'},
+    {value:'Maternal mortality ratio', text:'Maternal Mortality Ratio'},
+    {value:'Minimum wage', text:'Minimum Wage'},
+    {value:'Out of pocket health expenditure', text:'Out of Pocket Health Expenditure'},
+    {value:'Physicians per thousand', text:'Physicians per Thousand'},
+    {value:'Population', text:'Population'},
+    {value:'Population: Labor force participation (%25)', text:'Labor Force Participation (%)'},
+    {value:'Tax revenue (%25)', text:'Tax Revenue (%)'},
+    {value:'Total tax rate', text:'Total Tax Rate'},
+    {value:'Unemployment rate', text:'Unemployment Rate'},
+    {value:'Urban_population', text:'Urban Population'},
+
+  ];
+
+  const gameDataOptions = [
+    { value: 'Revenue by Market', text: 'Revenue by Market' },
+    { value: 'Average Revenue per User by Market', text: 'Average Revenue per User by Market' },
+    { value: 'Users by Market', text: 'Users by Market' },
+    { value: 'Revenue Growth by Market', text: 'Revenue Growth by Market' },
+  ];
+
+  const gameContentOptions = [
+    { value: 'Total', text: 'Total' },
+    { value: 'Online Games', text: 'Online Games' },
+    { value: 'Mobile Games', text: 'Mobile Games' },
+    { value: 'In-game Advertising', text: 'In-game Advertising' },
+    { value: 'Games Live Streaming', text: 'Games Live Streaming' },
+    { value: 'Download Games', text: 'Download Games' },
+  ];
+
   return (
     <>
       {/* Show Sidebar button */}
-      {!isVisible && (
+      {!isVisible && 
         <button
           className="show-sidebar-button"
           onClick={() => setIsVisible(true)}
         >
           Show Sidebar
         </button>
-      )}
+      }
 
-      {isVisible && (
+      {isVisible && 
         <div className="ui-controls">
       
           <section id="top-section">
@@ -70,43 +118,19 @@ export default function Panel(
               </tr>
               <tr>
                 <td>
-                  <select onChange={(e) => countryFilterButtonHandler(e.target.value)}>
-                    <option value="">
-                      Select Country Data
-                    </option>
-                    <option value="Agricultural Land( %25)">Agricultural Land (%)</option>
-                    <option value="Land Area(Km2)">Land Area (Km2)</option>
-                    <option value="Armed Forces size">Armed Forces size</option>
-                    <option value="Birth Rate">Birth Rate</option>
-                    <option value="Co2-Emissions">Co2 Emissions</option>
-                    <option value="CPI">CPI</option>
-                    <option value="CPI Change (%25)">CPI Change (%)</option>
-                    <option value="Fertility Rate">Fertility Rate</option>
-                    <option value="Forested Area (%25)">Forested Area (%)</option>
-                    <option value="Gasoline Price">Gasoline Price</option>
-                    <option value="GDP">GDP</option>
-                    <option value="Gross primary education enrollment (%25)">
-                      Gross primary education enrollment (%)
-                    </option>
-                    <option value="Gross tertiary education enrollment (%25)">
-                      Gross tertiary education enrollment (%)
-                    </option>
-                    <option value="Infant mortality">Infant Mortality</option>
-                    <option value="Life expectancy">Life Expectancy</option>
-                    <option value="Maternal mortality ratio">Maternal Mortality Ratio</option>
-                    <option value="Minimum wage">Minimum Wage</option>
-                    <option value="Out of pocket health expenditure">
-                      Out of Pocket Health Expenditure
-                    </option>
-                    <option value="Physicians per thousand">Physicians per Thousand</option>
-                    <option value="Population">Population</option>
-                    <option value="Population: Labor force participation (%25)">
-                      Labor Force Participation (%)
-                    </option>
-                    <option value="Tax revenue (%25)">Tax Revenue (%)</option>
-                    <option value="Total tax rate">Total Tax Rate</option>
-                    <option value="Unemployment rate">Unemployment Rate</option>
-                    <option value="Urban_population">Urban Population</option>
+                  <select
+                    id="countrySelect"
+                    value={countryFilter}
+                    onChange={(e) => countryFilterButtonHandler(e.target.value)}
+                  >
+                    <option value=""
+                      aria-label={`Option for no filter`}>No Country Filter</option>
+                    {countryOptions.map((element) => 
+                      <option key={element.value} value={element.value}
+                        aria-label={`Option for ${element.text}`}>
+                        {element.text}
+                      </option>
+                    )}
                   </select>
                 </td>
               </tr>
@@ -123,16 +147,19 @@ export default function Panel(
               </tr>
               <tr>
                 <td>
-                  <select onChange={(e) => gameFilterChartButtonHandler(e.target.value)}>
-                    <option value="">
-                      Select Game Data Type
-                    </option>
-                    <option value="Revenue by Market">Revenue by Market</option>
-                    <option value="Average Revenue per User by Market">
-                      Average Revenue per User by Market
-                    </option>
-                    <option value="Users by Market">Users by Market</option>
-                    <option value="Revenue Growth by Market">Revenue Growth by Market</option>
+                  <select
+                    id="filterChartSelect"
+                    value={gameFilter.split(' for ')[0]}
+                    onChange={(e) => gameFilterChartButtonHandler(e.target.value)}
+                  >
+                    <option value=""
+                      aria-label={`Option for no filter`}>No Game Data Type Filter</option>
+                    {gameDataOptions.map((element) => 
+                      <option key={element.value} value={element.value}
+                        aria-label={`Option for ${element.text}`}>
+                        {element.text}
+                      </option>
+                    )}
                   </select>
                 </td>
               </tr>
@@ -148,16 +175,19 @@ export default function Panel(
               </tr>
               <tr>
                 <td>
-                  <select onChange={(e) => gameFilterTypeButtonHandler(e.target.value)}>
-                    <option value="">
-                        Select Game Data Content
-                    </option>
-                    <option value="Total">Total</option>
-                    <option value="Online Games">Online Games</option>
-                    <option value="Mobile Games">Mobile Games</option>
-                    <option value="In-game Advertising">In-game Advertising</option>
-                    <option value="Games Live Streaming">Games Live Streaming</option>
-                    <option value="Download Games">Download Games</option>
+                  <select
+                    id="filterTypeSelect"
+                    value={gameFilter.split(' for ')[1]}
+                    onChange={(e) => gameFilterTypeButtonHandler(e.target.value)}
+                  >
+                    <option value=""
+                      aria-label={`Option for no filter`}>No Game Type Filter</option>
+                    {gameContentOptions.map((element) => 
+                      <option key={element.value} value={element.value}
+                        aria-label={`Option for ${element.text}`}>
+                        {element.text}
+                      </option>
+                    )}
                   </select>
                 </td>
               </tr>
@@ -169,7 +199,7 @@ export default function Panel(
             <input type="checkbox" onChange={toggleSidebar} />
           </label>
         </div>
-      )}
+      }
     </>
   );
 }

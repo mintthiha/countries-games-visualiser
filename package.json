@@ -28,6 +28,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "leaflet": "^1.9.4",
+    "memory-cache": "^0.2.0",
     "mongodb": "^6.10.0",
     "plotly.js": "^2.35.2",
     "plotly.js-dist-min": "^2.35.2",

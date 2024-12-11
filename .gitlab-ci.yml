@@ -4,12 +4,14 @@ workflow:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH 
     - if: $CI_COMMIT_BRANCH == "staging"
-    - if: $CI_MERGE_REQUEST_ID #For MR's
+    - if: $CI_MERGE_REQUEST_ID # For merge requests
+    - if: $CI_COMMIT_TAG 
 
 stages:
   - build
   - test
   - lint
+  - release
 
 client_build:
   stage: build
@@ -29,11 +31,12 @@ client_build:
 
 bundlesize-client:
   stage: build
-  before_script:
-    - npm install
-    - npm run build
+  dependencies:
+    - client_build
   script:
     - npx bundlesize2
+  needs:
+    - client_build
 
 server_test:
   stage: test
@@ -69,3 +72,22 @@ server_lint:
     key: $CI_COMMIT_REF_SLUG
     paths:
       - server/.npm/
+
+build-app-archive:
+  stage: release
+  variables:
+    RELEASE_FILE: release-$CI_PROJECT_NAME-$CI_COMMIT_TAG-$CI_COMMIT_SHORT_SHA.tar.gz
+  dependencies:
+    - client_build
+  rules:
+    - if: $CI_COMMIT_TAG  
+  before_script:
+    - cd server
+    - npm ci --omit=dev  
+    - cd ..
+  script:
+    - tar -zcvf $RELEASE_FILE client/dist server/node_modules server/*.js server/controllers server/db server/routes server/app.mjs server/node_modules
+  artifacts:
+    expire_in: 7 days
+    paths:
+      - $RELEASE_FILE

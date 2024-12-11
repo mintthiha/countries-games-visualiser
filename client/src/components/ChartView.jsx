@@ -58,6 +58,8 @@ export function ChartView( { setView, currentCountryFilter, geoJsonData, gameDat
     <div>
       <div className="ui-container">
         <Panel 
+          countryFilter={currentCountryFilter} 
+          gameFilter={currentGameFilter}
           setView={setView} 
           countryFilterButtonHandler={countryFilterHandler}
           gameFilterChartButtonHandler={gameFilterChartHandler}

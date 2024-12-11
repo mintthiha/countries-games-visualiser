@@ -30,7 +30,9 @@ export default function MapView({
 }) {
   return (
     <div className="ui-container">
-      <Panel 
+      <Panel
+        countryFilter={currentCountryFilter} 
+        gameFilter={currentGameFilter}
         setView={setView} 
         countryFilterButtonHandler={countryFilterHandler}
         gameFilterChartButtonHandler={gameFilterChartHandler}

@@ -18,6 +18,7 @@ import { AllGamesData } from './readData.mjs';
 export const getAllGamesData = async (req, res) => {
   try {
     const countriesGamesData = await AllGamesData();
+    res.set('Cache-Control', 'public, max-age=31536000, immutable');
     res.json(countriesGamesData);
   } catch (error) {
     console.error('Failed to retrieve countries games data:', error);
@@ -49,6 +50,7 @@ export const getCountryGamesData = async (req, res) => {
     });
 
     if (countryData) {
+      res.set('Cache-Control', 'public, max-age=31536000, immutable');
       res.json(countryData);
     } else {
       res.status(404).json({ error: 'The country is not found. Try again!' });
@@ -97,7 +99,7 @@ export const getCountryGameFilter = async (req, res) => {
         Unit: d.Unit
       }))
     );
-
+    res.set('Cache-Control', 'public, max-age=31536000, immutable');
     res.json(betterData);
   } catch (error) {
     console.error(error);
